@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  app-backend-php:
+    container_name: app-backend-php
+    image: vixns/php-nginx:8.3.19
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/var/www/html
+
+  app-backend-mysql:
+    container_name: app-backend-mysql
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_DATABASE:-database_dev}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-root}
+    tty: true
+    volumes:
+      - data-mysql:/var/lib/mysql
+    ports:
+      - 3310:3306
+    expose:
+      - 3310
+
+  app-backend-phpmyadmin:
+    container_name: app-backend-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    tty: true
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=${DB_HOST:-app-backend-mysql}
+      - PMA_USER=${DB_USERNAME:-root}
+      - PMA_PASSWORD=${DB_PASSWORD:-root}
+    ports:
+      - 8097:80
+
+  app-backend-redis:
+    image: redis:6.0
+    restart: unless-stopped
+    ports:
+      - 6394:6379
+
+volumes:
+  data-mysql: { }
