@@ -19,7 +19,7 @@ RUN apt-get update && \
     libjpeg-dev \
     libbz2-dev \
     libjpeg62-turbo-dev \
-    libzip-dev && \d
+    libzip-dev && \
     #pecl
     pecl install redis xdebug && \
     #Configure extensions
