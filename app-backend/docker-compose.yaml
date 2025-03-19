@@ -1,14 +1,33 @@
 version: '3'
 
 services:
+  app-backend-nginx:
+    image: library/nginx:1.19.3
+    restart: always
+    tty: true
+    depends_on:
+      - php
+    ports:
+      - 8080:80
+      - 4443:443
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    links:
+      - php
+
   app-backend-php:
     container_name: app-backend-php
-    image: vixns/php-nginx:8.3.19
-    restart: unless-stopped
-    ports:
-      - 8080:8080
+    build:
+      context: ./docker
+    restart: always
+    tty: true
+    working_dir: /var/www/html
     volumes:
-      - .:/var/www/html
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+      - ./:/var/www/html
+      - /dev/shm:/dev/shm
 
   app-backend-mysql:
     container_name: app-backend-mysql
