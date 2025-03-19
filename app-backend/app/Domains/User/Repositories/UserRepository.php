@@ -28,9 +28,10 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->orderBy('id', 'desc')->paginate();
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): User
     {
-        // TODO: Implement create() method.
+        $attributes['password'] = bcrypt($attributes['password']);
+        return $this->model->create($attributes);
     }
 
     public function update(array $attributes, int $id)
