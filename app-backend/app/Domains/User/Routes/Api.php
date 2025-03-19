@@ -7,4 +7,4 @@ use App\Domains\User\Controllers\UserController;
 })->middleware('auth:sanctum');*/
 
 
-Route::get('/users', [UserController::class, 'index']);
+Route::apiResource('/users', UserController::class);

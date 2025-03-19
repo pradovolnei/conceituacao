@@ -1,9 +1,13 @@
 <?php
 namespace App\Domains\User\Repositories;
 
+use App\Domains\User\DataTransfers\UserCreateDTO;
+use App\Domains\User\DataTransfers\UserUpdateDTO;
 use App\Domains\User\Models\User;
 use App\Domains\User\Repositories\Interfaces\UserRepositoryInterface;
+use App\Domains\User\Requests\UserCreateRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -28,18 +32,43 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->orderBy('id', 'desc')->paginate();
     }
 
-    public function create(array $attributes)
+    public function findById(int $id)
     {
-        // TODO: Implement create() method.
+        return $this->model->find($id);
     }
 
-    public function update(array $attributes, int $id)
+    /**
+     * @param UserCreateDTO $data
+     * @return User
+     */
+    public function create(UserCreateDTO $data): User
     {
-        // TODO: Implement update() method.
+        $data->password = bcrypt($data->password);
+        return $this->model->create($data->toArray());
     }
 
+    public function update(UserUpdateDTO $data, int $id)
+    {
+       $model = $this->model->find($id);
+       $model->fill($data->toArray());
+       $model->save();
+
+       return $this->findById($id);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $model = $this->findById($id);
+        if (!$model) {
+            throw new HttpResponseException(
+                response()->json(['message' => 'usuário não encontrado'], 404)
+            );
+        }
+        return $model->delete();
     }
+
 }
