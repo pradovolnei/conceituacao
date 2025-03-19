@@ -7,6 +7,7 @@ use App\Domains\User\Models\User;
 use App\Domains\User\Repositories\Interfaces\UserRepositoryInterface;
 use App\Domains\User\Requests\UserCreateRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -31,6 +32,11 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->orderBy('id', 'desc')->paginate();
     }
 
+    public function findById(int $id)
+    {
+        return $this->model->find($id);
+    }
+
     /**
      * @param UserCreateDTO $data
      * @return User
@@ -50,14 +56,19 @@ class UserRepository implements UserRepositoryInterface
        return $this->findById($id);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
-    }
-
-    public function findById(int $id)
-    {
-        return $this->model->find($id);
+        $model = $this->findById($id);
+        if (!$model) {
+            throw new HttpResponseException(
+                response()->json(['message' => 'usuário não encontrado'], 404)
+            );
+        }
+        return $model->delete();
     }
 
 }

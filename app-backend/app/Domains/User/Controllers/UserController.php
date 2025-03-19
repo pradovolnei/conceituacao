@@ -40,4 +40,10 @@ class UserController extends Controller
         $userUpdate = $this->userRepository->update($dataDataTransfer, $id);
         return response()->json($userUpdate);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $userDelete = $this->userRepository->delete($id);
+        return response()->json($userDelete);
+    }
 }
