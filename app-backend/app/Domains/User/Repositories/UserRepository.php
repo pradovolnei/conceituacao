@@ -1,8 +1,11 @@
 <?php
 namespace App\Domains\User\Repositories;
 
+use App\Domains\User\DataTransfers\UserCreateDTO;
+use App\Domains\User\DataTransfers\UserUpdateDTO;
 use App\Domains\User\Models\User;
 use App\Domains\User\Repositories\Interfaces\UserRepositoryInterface;
+use App\Domains\User\Requests\UserCreateRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class UserRepository implements UserRepositoryInterface
@@ -28,19 +31,33 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->orderBy('id', 'desc')->paginate();
     }
 
-    public function create(array $attributes): User
+    /**
+     * @param UserCreateDTO $data
+     * @return User
+     */
+    public function create(UserCreateDTO $data): User
     {
-        $attributes['password'] = bcrypt($attributes['password']);
-        return $this->model->create($attributes);
+        $data->password = bcrypt($data->password);
+        return $this->model->create($data->toArray());
     }
 
-    public function update(array $attributes, int $id)
+    public function update(UserUpdateDTO $data, int $id)
     {
-        // TODO: Implement update() method.
+       $model = $this->model->find($id);
+       $model->fill($data->toArray());
+       $model->save();
+
+       return $this->findById($id);
     }
 
     public function delete(int $id)
     {
         // TODO: Implement delete() method.
     }
+
+    public function findById(int $id)
+    {
+        return $this->model->find($id);
+    }
+
 }
