@@ -35,6 +35,7 @@ composer install # *Se necessário execute composer update
 php artisan migrate
 
 # gerando seeds para popular o banco de dados com dados inicias
+php artisan db:seed --class=ProfileSeeder
 php artisan db:seed --class=UserSeeder
 ```
 
