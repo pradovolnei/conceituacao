@@ -1,7 +1,6 @@
 <?php
 namespace App\Core\Middlewares;
 
-use App\Infra\Enums\ProfileType;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -15,7 +14,7 @@ class AuthorizeAdministrator
     {
 
        $filtered = array_filter($request->user()->profiles->toArray(), function ($item) {
-          return $item['name'] === ProfileType::Admin->value;
+          return isGuardAdmin($item['name']);
        });
 
 
