@@ -8,6 +8,7 @@ use App\Domains\User\Repositories\Interfaces\UserRepositoryInterface;
 use App\Domains\User\Requests\UserCreateRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use \Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -25,13 +26,17 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function paginate()
+    public function paginate(): LengthAwarePaginator
     {
-        return $this->model->orderBy('id', 'desc')->paginate();
+        return $this->model->with(['profiles'])->orderBy('id', 'desc')->paginate();
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findById(int $id)
     {
         return $this->model->find($id);
@@ -47,6 +52,11 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->create($data->toArray());
     }
 
+    /**
+     * @param UserUpdateDTO $data
+     * @param int $id
+     * @return mixed
+     */
     public function update(UserUpdateDTO $data, int $id)
     {
        $model = $this->model->find($id);
