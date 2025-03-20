@@ -10,7 +10,6 @@
 
 namespace App\Infra\Support\Http\Routing;
 
-
 abstract class RoutesFile
 {
     /*

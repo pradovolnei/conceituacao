@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 class AuthController extends Controller
 {
 
-
     public function authenticate(LoginRequest $request): JsonResponse
     {
         $credentials = $request->only(['email', 'password']);
