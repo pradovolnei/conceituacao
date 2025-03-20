@@ -30,14 +30,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function paginate(): LengthAwarePaginator
     {
-        return $this->model->with(['profiles'])->orderBy('id', 'desc')->paginate();
+        return $this->model->orderBy('id', 'desc')->paginate();
     }
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function findById(int $id)
+    public function findById(int $id): ?User
     {
         return $this->model->find($id);
     }
@@ -46,7 +46,7 @@ class UserRepository implements UserRepositoryInterface
      * @param UserCreateDTO $data
      * @return User
      */
-    public function create(UserCreateDTO $data): User
+    public function create(UserCreateDTO $data): ?User
     {
         $data->password = bcrypt($data->password);
         return $this->model->create($data->toArray());

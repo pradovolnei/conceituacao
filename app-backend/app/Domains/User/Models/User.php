@@ -48,6 +48,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['profiles'];
+
+
     public function profiles()
     {
         return $this->belongsToMany(Profile::class);
