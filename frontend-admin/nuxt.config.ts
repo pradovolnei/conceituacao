@@ -19,9 +19,8 @@ export default defineNuxtConfig({
     serveStatic: true,
   },
   devServerHandlers: [],
-  hooks: {
-  },
-
+  hooks: {  },
+  modules: ['@pinia/nuxt'],
 })
 
 
