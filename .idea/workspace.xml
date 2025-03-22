@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a6206ef-cde2-4f5a-ab9e-6963eb4d1357" name="Changes" comment="feat(seeds/global): crate seeders users, profiles">
-      <change afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Controllers/ProfileUserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/DataTransfers/ProfileUserCreateDTO.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Repositories/Interfaces/ProfileUserRepositoryInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Repositories/ProfileUserRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Requests/ProfileUserCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Providers/RepositoryServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Routes/Api.php" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/app/Domains/Profile/Routes/Api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-backend/app/Domains/User/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/app/Domains/User/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-backend/app/Domains/User/Repositories/Interfaces/UserRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/app/Domains/User/Repositories/Interfaces/UserRepositoryInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-backend/app/Domains/User/Repositories/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/app/Domains/User/Repositories/UserRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-admin/middleware/authenticated.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend-admin/pages/users/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-backend/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/app-backend/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/layouts/default.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/pages/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/pages/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/plugins/vuetify.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/plugins/vuetify.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-admin/theme/LightTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-admin/theme/LightTheme.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +162,7 @@
       <path value="$PROJECT_DIR$/app-backend/vendor/graham-campbell/result-type" />
       <path value="$PROJECT_DIR$/app-backend/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/app-backend/vendor/composer" />
+      <path value="$PROJECT_DIR$/app-backend/vendor/zircote/swagger-php" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -174,7 +177,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "backend-api",
+    "git-widget-placeholder": "frontend-app",
     "last_opened_file_path": "/home/uhelliton/Development/projects/vagas/conceituacao/app-backend/app/Domains/Profile/Providers",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -200,6 +203,12 @@
       <recent name="$PROJECT_DIR$/app-backend/docker/nginx" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner configuration_file="$PROJECT_DIR$/app-backend/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -217,6 +226,7 @@
       <updated>1742343405361</updated>
       <workItem from="1742343407336" duration="26995000" />
       <workItem from="1742411309204" duration="19570000" />
+      <workItem from="1742684481954" duration="255000" />
     </task>
     <task id="LOCAL-00001" summary="build(docker/): docker development settings: php-8.3, nginx, mysql, redis">
       <option name="closed" value="true" />
