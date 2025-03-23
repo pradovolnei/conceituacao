@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
     <v-locale-provider >
         <v-app>
@@ -15,3 +12,9 @@
         </v-app>
     </v-locale-provider>
 </template>
+
+<script setup lang="ts">
+definePageMeta({
+  middleware: ['authenticated'],
+})
+</script>

@@ -35,7 +35,6 @@ const PurpleTheme: ThemeTypes = {
     name: 'PurpleTheme',
     dark: false,
     variables: {
-        'border-color': '#eeeeee',
         'carousel-control-size': 10
     },
     colors: {

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-/*-For Set Blank Layout-*/
+
 definePageMeta({
   layout: "blank",
-});
+})
+
 </script>
+
+
 <template>
     <div class="authentication">
         <v-container fluid class="pa-3">
@@ -14,7 +17,7 @@ definePageMeta({
                             <div class="d-flex justify-center py-4">
                                 <LayoutFullLogo />
                             </div>
-                            <div class="text-body-1 text-muted text-center mb-3">Senha bem vindo!</div>
+                            <div class="text-body-1 text-muted text-center mb-3">bem vindo!</div>
                             <AuthLoginForm />
                         </v-card-item>
                     </v-card>
