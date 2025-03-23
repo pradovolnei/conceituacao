@@ -6,6 +6,7 @@ use App\Domains\Profile\Models\Profile;
 use App\Domains\Profile\Repositories\Interfaces\ProfileUserRepositoryInterface;
 use App\Domains\User\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use \App\Domains\User\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ProfileUserRepository implements ProfileUserRepositoryInterface
 {
@@ -15,6 +16,16 @@ class ProfileUserRepository implements ProfileUserRepositoryInterface
      {
          $this->userRepository = $userRepository;
      }
+
+
+    /**
+     * @param int $profileId
+     * @return int
+     */
+    public function countProfileUser(int $profileId): int
+    {
+        return DB::table('profile_user')->where('profile_id', $profileId)->count();
+    }
 
     /**
      * @param int $userId
