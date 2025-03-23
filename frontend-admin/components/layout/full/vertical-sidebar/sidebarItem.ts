@@ -26,16 +26,16 @@ const sidebarItem: menu[] = [
         icon: LayoutDashboardIcon,
         to: '/'
     },
-    { header: 'auth' },
-    {
-        title: 'Gerenciar Perfil',
-        icon: LoginIcon,
-        to: '/auth/login'
-    },
+    { header: 'Gestão de Usuários' },
     {
         title: 'Gerenciar Usuário',
         icon: UserPlusIcon,
-        to: '/auth/register'
+        to: '/users'
+    },
+    {
+        title: 'Gerenciar Perfil',
+        icon: LoginIcon,
+        to: '/users/profiles'
     },
 ];
 

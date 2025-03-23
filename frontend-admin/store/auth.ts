@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const runtimeConfig = useRuntimeConfig()
+const authJwtToken = useCookie('token')
 
 export interface UserPayloadInterface {
     username: string;
@@ -8,11 +9,15 @@ export interface UserPayloadInterface {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const isAuthenticate = ref(false)
-    const loading = ref(false)
+    const token = ref(authJwtToken.value)
+
+
+    const isAuthenticate = computed(() => {
+        return (token.value && token.value?.length > 0)
+    })
 
     const authenticate = async (payload: UserPayloadInterface) => {
-        const { data } = await useFetch(`${runtimeConfig.public.API_URL}/auth/login`, {
+        const { data } = await useFetchApi(`${runtimeConfig.public.API_URL}/auth/login`, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: {
@@ -25,7 +30,6 @@ export const useAuthStore = defineStore('auth', () => {
             const user = useCookie('user') // useCookie new hook in nuxt 3
             token.value = data?.value?.token // set token to cookie
             user.value = data?.value?.user // set token to cookie
-            isAuthenticate.value = true
             return true
         }
 
@@ -33,5 +37,5 @@ export const useAuthStore = defineStore('auth', () => {
 
     }
 
-    return { authenticate, isAuthenticate }
+    return { authenticate, isAuthenticate, token }
 })
