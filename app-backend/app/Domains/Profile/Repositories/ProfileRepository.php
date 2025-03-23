@@ -79,7 +79,7 @@ class ProfileRepository implements ProfileRepositoryInterface
         $profileUserCounter = $this->profileUserRepository->countProfileUser($id);
         if ($profileUserCounter > 0) {
             throw new HttpResponseException(
-                response()->json(['message' => 'perfil não pode ser excluido, pois está em uso'], 404)
+                response()->json(['message' => 'perfil não pode ser excluido, pois está em uso'], 403)
             );
         }
 
