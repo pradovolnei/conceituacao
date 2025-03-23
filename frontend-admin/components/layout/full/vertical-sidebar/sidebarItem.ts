@@ -34,8 +34,8 @@ const sidebarItem: menu[] = [
     },
     {
         title: 'Gerenciar Perfil',
-        icon: LoginIcon,
-        to: '/users/profiles'
+        icon: CopyIcon,
+        to: '/profiles'
     },
 ];
 
