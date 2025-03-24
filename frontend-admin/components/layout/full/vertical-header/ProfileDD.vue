@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { UserIcon } from 'vue-tabler-icons'
-const token = useCookie('token')
-const user = useCookie('user')
+import {useAuthStore} from "~/store/auth";
 
 const logout = () => {
-  token.value = null
-  user.value = null
-  navigateTo('/auth/login')
+  const { logout } = useAuthStore()
+  logout()
 }
 
 </script>

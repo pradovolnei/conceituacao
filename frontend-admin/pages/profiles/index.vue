@@ -52,11 +52,13 @@
   <v-dialog v-model="dialog" max-width="500">
     <v-card :title="`${isEditing ? 'Editar' : 'Novo' } Perfíl`">
       <template v-slot:text>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field v-model="record.name" label="Nome"></v-text-field>
-          </v-col>
-        </v-row>
+        <v-form ref="formRef">
+          <v-row>
+            <v-col cols="12">
+              <v-text-field v-model="record.name" label="Nome" :rules="[v => !!v || 'campo requirido']" />
+            </v-col>
+          </v-row>
+        </v-form>
       </template>
       <v-divider />
       <v-card-actions class="bg-surface-light">
@@ -86,7 +88,8 @@
 <script setup>
 import { reactive, onMounted, ref } from 'vue'
 import { ProfileService } from '~/services/profiles.service'
-import { toast } from 'vue3-toastify'
+const { $toast } = useNuxtApp()
+
 definePageMeta({
   middleware: ['authenticated'],
 })
@@ -94,6 +97,7 @@ definePageMeta({
 const dialog = shallowRef(false)
 const dialogRemove = shallowRef(false)
 const isEditing = shallowRef(false)
+const formRef = ref()
 const record = ref({ name: '' })
 const dataTable = reactive({
   rows: [],
@@ -128,6 +132,9 @@ const removeUser = async (id) => {
 }
 
 const formSubmit = async () => {
+  const { valid } = await formRef.value.validate()
+  if (!valid) return false
+
   if (isEditing.value) {
     await ProfileService.update(record.value?.id, record.value)
   } else {
@@ -135,6 +142,7 @@ const formSubmit = async () => {
   }
 
   await fetchProfiles()
+  $toast.info('Dados salvo sucesso!')
   record.value ={ name: '' }
   dialog.value = false
 }
@@ -145,6 +153,7 @@ const handleRemoveUser = async () => {
     await fetchProfiles()
     record.value = { name: '' }
     dialogRemove.value = false
+    $toast.info('perfil removido com sucesso!')
   } catch (e) {
     console.log(e.toString())
   }
