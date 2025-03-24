@@ -20,8 +20,9 @@ export const useAuthStore = defineStore('auth', () => {
 
     const isAdministrator = computed(() => {
         const filtered = user.value?.profiles?.filter((profile) => profile.name === 'Administrador')
-        return (filtered.length > 0)
+        return (filtered && filtered.length > 0)
     })
+
 
     const authenticate = async (payload: UserPayloadInterface) => {
         const { data } = await useFetchApi(`${runtimeConfig.public.API_URL}/auth/login`, {
@@ -44,5 +45,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     }
 
-    return { authenticate, isAuthenticate, isAdministrator, token, user }
+    const logout = () => {
+        token.value = null
+        user.value = null
+        jwtTokenCookie.value = null
+        userCookie.value = null
+
+        navigateTo('/auth/login')
+    }
+
+    return { authenticate, logout,  isAuthenticate, isAdministrator, token, user }
 })

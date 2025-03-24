@@ -30,7 +30,7 @@
       <v-card-actions class="bg-surface-light">
         <v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
         <v-spacer></v-spacer>
-        <v-btn class="bg-primary" text="Confimar" @click="formSubmit"></v-btn>
+        <v-btn class="bg-primary" text="Confimar" :disabled="!selectProfiles.length" @click="formSubmit"></v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

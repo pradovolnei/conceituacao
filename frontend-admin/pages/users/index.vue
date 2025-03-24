@@ -90,23 +90,25 @@
   <v-dialog v-model="dialog" max-width="500">
     <v-card :title="`${isEditing ? 'Editar' : 'Novo' } Usuário`">
       <template v-slot:text>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field v-model="record.name" label="Nome"></v-text-field>
-          </v-col>
-          <v-col cols="12" md="12">
-            <v-text-field v-model="record.email" label="Email"></v-text-field>
-          </v-col>
-          <v-col cols="12" md="12" v-if="!isEditing">
-            <v-text-field v-model="record.password" label="Senha"></v-text-field>
-          </v-col>
-        </v-row>
+        <v-form ref="formRef">
+          <v-row>
+            <v-col cols="12">
+              <v-text-field v-model="record.name" label="Nome" :rules="[v => !!v || 'campo requirido']" />
+            </v-col>
+            <v-col cols="12" md="12">
+              <v-text-field v-model="record.email" label="Email" :rules="[v => !!v || 'campo requirido']" />
+            </v-col>
+            <v-col cols="12" md="12" v-if="!isEditing">
+              <v-text-field v-model="record.password" label="Senha" :rules="[v => !!v || 'campo requirido']"/>
+            </v-col>
+          </v-row>
+        </v-form>
       </template>
       <v-divider />
       <v-card-actions class="bg-surface-light">
         <v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
         <v-spacer></v-spacer>
-        <v-btn class="bg-primary" text="Savar" @click="formSubmit"></v-btn>
+        <v-btn class="bg-primary" text="Salvar" @click="formSubmit"></v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -141,11 +143,14 @@ definePageMeta({
   middleware: ['authenticated'],
 })
 
+const { $toast } = useNuxtApp()
+
 const associateProfileRef = ref(null)
 const detachProfileRef = ref(null)
 const dialog = shallowRef(false)
 const dialogRemove = shallowRef(false)
 const isEditing = shallowRef(false)
+const formRef = ref()
 const record = ref({ name: '', email: '', password: '' })
 const dataTable = reactive({
   rows: [],
@@ -184,6 +189,9 @@ const removeUser = async (id) => {
 }
 
 const formSubmit = async () => {
+  const { valid } = await formRef.value.validate()
+  if (!valid) return false
+
   if (isEditing.value) {
     await UsersService.update(record.value?.id, record.value)
   } else {
@@ -191,6 +199,7 @@ const formSubmit = async () => {
   }
 
   await fetchUsers()
+  $toast.info('Dados salvo sucesso!')
   record.value = { name: '', email: '', password: '' }
   dialog.value = false
 }
@@ -200,6 +209,7 @@ const handleRemoveUser = async () => {
   await fetchUsers()
   record.value = { name: '', email: '', password: '' }
   dialogRemove.value = false
+  $toast.info('usuário removido com sucesso!')
 }
 
 const fetchUsers = async () => {
