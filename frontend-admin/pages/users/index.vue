@@ -41,6 +41,7 @@
                 class="text-none"
                 size="small"
                 variant="flat"
+                @click="associateProfileRef.openDialog(item)"
             />
             <v-btn
                 color="success"
@@ -95,16 +96,21 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <AssociateProfile :profiles="profiles" ref="associateProfileRef" @formSubmit="fetchUsers" />
 </template>
 
 <script setup>
 import { reactive, onMounted, ref } from 'vue'
 import { UsersService } from '~/services/user.service'
+import { ProfileService } from '~/services/profiles.service'
+import AssociateProfile from '~/components/user/AssociateProfile.vue'
 
 definePageMeta({
   middleware: ['authenticated'],
 })
 
+const associateProfileRef = ref(null)
 const dialog = shallowRef(false)
 const dialogRemove = shallowRef(false)
 const isEditing = shallowRef(false)
@@ -113,9 +119,11 @@ const dataTable = reactive({
   rows: [],
   total: 0,
 })
+const profiles = ref([])
 
 onMounted(async () => {
   await fetchUsers()
+  await fetchProfiles()
 })
 
 function createUser () {
@@ -144,7 +152,12 @@ const removeUser = async (id) => {
 }
 
 const formSubmit = async () => {
-  await UsersService.update(record.value?.id, record.value)
+  if (isEditing.value) {
+    await UsersService.update(record.value?.id, record.value)
+  } else {
+    await UsersService.create(record.value)
+  }
+
   await fetchUsers()
   record.value = { name: '', email: '', password: '' }
   dialog.value = false
@@ -160,6 +173,11 @@ const handleRemoveUser = async () => {
 const fetchUsers = async () => {
   const { data } = await UsersService.getAll()
   dataTable.rows = data.value.data
+}
+
+const fetchProfiles = async () => {
+  const { data } = await ProfileService.getAll()
+  profiles.value = data.value.data
 }
 
 const headers = [
