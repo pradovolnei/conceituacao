@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
+const router = useRouter()
 
 const authStore = useAuthStore()
 const form: any = reactive({
@@ -16,9 +17,9 @@ const rules = [
 
 async function handleFormSubmit() {
   const logged = await authStore.authenticate(form)
+  console.log('logged', logged)
   if (logged) {
-    navigateTo('/')
-    return
+    window.location.href = '/'
   }
 
 

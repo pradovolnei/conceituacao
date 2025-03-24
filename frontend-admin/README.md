@@ -1,21 +1,45 @@
-```
+## Admin painel
 
-## Setup
+#### ⏳ Ponto de partida
 
-### Installation
+Configure o arquivo `.env` na raiz do projeto, use como base o `.env.copy`
 
-Make sure to install the dependencies
+### ✋ Requisitos
+
+**Node:**
+
+- NodeJS 20.x
+
+### 🛠️ Desenvolvimento
+**Docker:**
 
 ```bash
-npm install
+# Subir container docker 
+$ docker compose up -d
+
+# accessa o container node
+$ docker exec -it frontend-admin-nuxt sh
+
+# Instalar dependencias
+$ npm install
+
+# Subir servidor em localhost:9020
+$ npm run dev
 ```
 
-### Development
-
-Start the development server on http://localhost:9020
-
+**Node:**
 ```bash
-npm run dev
+# Instalar dependencias
+$ npm install
+
+# Subir servidor em localhost:9020
+$ npm run dev
 ```
 
+### 🛠 Tecnologias
+
+- [Nuxt.js docs](https://nuxtjs.org)
+- [Vue.js](https://vuejs.org/v2/guide/)
+- [Sass](https://sass-lang.com/)
+- [TypeScript](typescriptlang.org/)
 

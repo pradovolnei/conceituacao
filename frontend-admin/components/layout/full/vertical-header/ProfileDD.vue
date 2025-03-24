@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { UserIcon, MailIcon, ListCheckIcon } from 'vue-tabler-icons';
+import { UserIcon } from 'vue-tabler-icons'
+const token = useCookie('token')
+const user = useCookie('user')
+
+const logout = () => {
+  token.value = null
+  user.value = null
+  navigateTo('/auth/login')
+}
+
 </script>
 
 <template>
-    <!-- ---------------------------------------------- -->
-    <!-- notifications DD -->
-    <!-- ---------------------------------------------- -->
     <v-menu :close-on-content-click="false">
         <template v-slot:activator="{ props }">
             <v-btn class="profileBtn custom-hover-primary" variant="text" v-bind="props" icon>
@@ -24,7 +30,7 @@ import { UserIcon, MailIcon, ListCheckIcon } from 'vue-tabler-icons';
                 </v-list-item>
             </v-list>
             <div class="pt-4 pb-4 px-5 text-center">
-                <v-btn to="/auth/login" color="primary" variant="outlined" block>Logout</v-btn>
+                <v-btn  color="primary" variant="outlined" block @click="logout">Logout</v-btn>
             </div>
         </v-sheet>
     </v-menu>

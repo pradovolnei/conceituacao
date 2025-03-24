@@ -24,6 +24,14 @@
             ></v-btn>
           </v-toolbar>
         </template>
+        <template v-slot:item.profiles="{ item }">
+          <div class="">
+            <v-chip>
+              {{ item.profiles.length }}
+            </v-chip>
+             associado(s)
+          </div>
+        </template>
         <template v-slot:item.actions="{ item }">
           <div class="d-flex gap-2 justify-end">
             <v-btn
@@ -35,14 +43,6 @@
                 @click="editUser(item.id)"
             />
             <v-btn
-                color="warning"
-                prepend-icon="mdi-open-in-new"
-                text="Associar Perfils"
-                class="text-none"
-                size="small"
-                variant="flat"
-            />
-            <v-btn
                 color="success"
                 prepend-icon="mdi-delete"
                 class="text-none"
@@ -50,6 +50,36 @@
                 variant="flat"
                 @click="removeUser(item.id)"
             />
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn icon="mdi-dots-vertical" variant="flat" size="small" v-bind="props"></v-btn>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <v-btn
+                      color="primary"
+                      prepend-icon="mdi-open-in-new"
+                      text="Associar perfis"
+                      class="text-none"
+                      style="width: 100%"
+                      size="small"
+                      variant="flat"
+                      @click="associateProfileRef.openDialog(item)"
+                  />
+                </v-list-item>
+                <v-list-item>
+                  <v-btn
+                      color="warning"
+                      prepend-icon="mdi-open-in-new"
+                      text="Desassociar perfis"
+                      class="text-none maxWidth"
+                      size="small"
+                      variant="flat"
+                      @click="detachProfileRef.openDialog(item)"
+                  />
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </div>
         </template>
       </v-data-table>
@@ -95,16 +125,24 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <AssociateProfile :profiles="profiles" ref="associateProfileRef" @formSubmit="fetchUsers" />
+  <DetachProfile  ref="detachProfileRef" @formSubmit="fetchUsers" />
 </template>
 
 <script setup>
 import { reactive, onMounted, ref } from 'vue'
 import { UsersService } from '~/services/user.service'
+import { ProfileService } from '~/services/profiles.service'
+import AssociateProfile from '~/components/user/AssociateProfile.vue'
+import DetachProfile from '~/components/user/DetachProfile.vue'
 
 definePageMeta({
   middleware: ['authenticated'],
 })
 
+const associateProfileRef = ref(null)
+const detachProfileRef = ref(null)
 const dialog = shallowRef(false)
 const dialogRemove = shallowRef(false)
 const isEditing = shallowRef(false)
@@ -113,9 +151,11 @@ const dataTable = reactive({
   rows: [],
   total: 0,
 })
+const profiles = ref([])
 
 onMounted(async () => {
   await fetchUsers()
+  await fetchProfiles()
 })
 
 function createUser () {
@@ -144,7 +184,12 @@ const removeUser = async (id) => {
 }
 
 const formSubmit = async () => {
-  await UsersService.update(record.value?.id, record.value)
+  if (isEditing.value) {
+    await UsersService.update(record.value?.id, record.value)
+  } else {
+    await UsersService.create(record.value)
+  }
+
   await fetchUsers()
   record.value = { name: '', email: '', password: '' }
   dialog.value = false
@@ -162,9 +207,15 @@ const fetchUsers = async () => {
   dataTable.rows = data.value.data
 }
 
+const fetchProfiles = async () => {
+  const { data } = await ProfileService.getAll()
+  profiles.value = data.value.data
+}
+
 const headers = [
   { title: 'Usuário', value: 'name' },
   { title: 'Email', value: 'email' },
+  { title: 'perfis', value: 'profiles' },
   { title: 'Data Criaçao', value: 'created_at' },
   { title: '', key: 'actions', align: 'end', sortable: false },
 ]

@@ -1,8 +1,11 @@
 import {
-    ApertureIcon,
     CopyIcon,
-    LayoutDashboardIcon, LoginIcon, MoodHappyIcon, TypographyIcon, UserPlusIcon
+    LayoutDashboardIcon,
+    UserPlusIcon
 } from 'vue-tabler-icons';
+
+import { useAuthStore } from '~/store/auth'
+const { isAdministrator } = useAuthStore()
 
 export interface menu {
     header?: string;
@@ -19,6 +22,21 @@ export interface menu {
     subCaption?: string;
 }
 
+const menuItemAdmin = isAdministrator
+    ? [
+        { header: 'Gestão de Usuários' },
+        {
+            title: 'Gerenciar Usuário',
+            icon: UserPlusIcon,
+            to: '/users'
+        },
+        {
+            title: 'Gerenciar Perfil',
+            icon: CopyIcon,
+            to: '/profiles'
+        },
+    ] : []
+
 const sidebarItem: menu[] = [
     { header: 'Home' },
     {
@@ -26,17 +44,7 @@ const sidebarItem: menu[] = [
         icon: LayoutDashboardIcon,
         to: '/'
     },
-    { header: 'Gestão de Usuários' },
-    {
-        title: 'Gerenciar Usuário',
-        icon: UserPlusIcon,
-        to: '/users'
-    },
-    {
-        title: 'Gerenciar Perfil',
-        icon: CopyIcon,
-        to: '/profiles'
-    },
+    ...menuItemAdmin
 ];
 
 export default sidebarItem;
