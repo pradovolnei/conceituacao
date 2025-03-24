@@ -54,7 +54,7 @@ class UserServiceHttpService {
     }
 
     async detachProfiles(payload: IUserAttachProfilePayload) {
-        const route = runtimeConfig.public.API_URL + '/profiles/attach'
+        const route = runtimeConfig.public.API_URL + '/profiles/detach'
         return  await useFetchApi(route, {
             method: 'post',
             body: {

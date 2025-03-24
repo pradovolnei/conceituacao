@@ -1,5 +1,7 @@
 import { UseFetchOptions } from "nuxt/dist/app/composables";
 const token = useCookie('token')
+const user = useCookie('user')
+
 import { toast } from 'vue3-toastify'
 
 export const useFetchApi = (url: string, options?: UseFetchOptions<object>) => {
@@ -22,6 +24,7 @@ export const useFetchApi = (url: string, options?: UseFetchOptions<object>) => {
         async onResponseError({ request, response, options }) {
            if (response.status === 401) {
                token.value = null
+               user.value = null
                return navigateTo('/auth/login')
            }
             if (response.status === 403) {
