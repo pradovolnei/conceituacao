@@ -9,7 +9,7 @@
 http://localhost:8080/api
 </p>
 <p align="center">
-<a href="http://localhost:8080/documentation" target="_blank">API Documentação</a>
+<a href="http://localhost:8080/api/documentation" target="_blank">API Documentação</a>
 </p>
 
 ### ⏳ Ponto de partida
@@ -45,7 +45,7 @@ php artisan db:seed --class=UserSeeder
 **Documentação Swagger**
 ```bash
 # atualiza a documentação se houver mudanças
-php artisan swagger
+php php artisan l5-swagger:generate
 ```
 
 
