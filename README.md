@@ -81,3 +81,8 @@ Criar uma aplicação Laravel para gerenciar usuários e seus perfis, onde cada 
 - Banco de dados relacional (MySQL, Sqlite, PostgreSQL ou outro compatível com Laravel)
 - Laravel >= 10.x
 - Frontend - Livre escolha
+
+---
+
+## **Commit**
+- Faça o clone deste Readme e suba no seu repositório pessoal
