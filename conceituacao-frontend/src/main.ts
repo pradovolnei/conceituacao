@@ -3,9 +3,17 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import axios from 'axios';
 
-const app = createApp(App)
+// Configuração base do Axios
+axios.defaults.withCredentials = true; // Importante para o Sanctum
 
-app.use(router)
+// A baseURL deve ser vazia ou "/" para que o proxy do Vite funcione em dev.
+// Para produção, a URL completa será injetada pelo processo de build.
+axios.defaults.baseURL = '/';
 
-app.mount('#app')
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
