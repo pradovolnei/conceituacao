@@ -45,8 +45,11 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useAuthStore } from '../stores/auth';
 
 const router = useRouter();
+const authStore = useAuthStore();
+
 const form = ref({
   email: '',
   password: '',
@@ -56,14 +59,12 @@ const error = ref(null);
 const login = async () => {
   error.value = null;
   try {
-    // Primeiro, obtenha o CSRF cookie
-    await axios.get('/sanctum/csrf-cookie');
-    // Em seguida, faça a requisição de login
-    const response = await axios.post('/login', form.value);
-    console.log('Login bem-sucedido:', response.data);
-    // Armazene o token ou o status de autenticação (ex: em Pinia store ou Local Storage)
-    localStorage.setItem('isAuthenticated', 'true');
-    router.push('/'); // Redirecionar para a página inicial ou dashboard
+    const success = await authStore.login(form.value);
+    if (success) {
+      router.push('/');
+    } else {
+      error.value = 'Email ou senha inválidos.';
+    }
   } catch (err) {
     if (err.response && err.response.data && err.response.data.message) {
       error.value = err.response.data.message;

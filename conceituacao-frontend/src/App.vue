@@ -1,85 +1,45 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div id="app">
+    <nav class="bg-gray-800 p-4 text-white">
+      <div class="container mx-auto flex justify-between items-center">
+        <router-link to="/" class="font-bold text-xl">App Gerenciamento</router-link>
+        <div>
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/" class="mr-4 hover:text-gray-300">Home</router-link>
+            <router-link v-if="authStore.isAdmin" to="/profiles" class="mr-4 hover:text-gray-300">Perfis</router-link>
+            <router-link v-if="authStore.isAdmin" to="/users" class="mr-4 hover:text-gray-300">Usuários</router-link>
+            <button @click="logout" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-md">Sair</button>
+          </template>
+          <template v-else>
+            <router-link to="/login" class="mr-4 hover:text-gray-300">Login</router-link>
+            <router-link to="/register" class="hover:text-gray-300">Registrar</router-link>
+          </template>
+        </div>
+      </div>
+    </nav>
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script setup>
+import { useAuthStore } from './stores/auth';
+import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const authStore = useAuthStore();
+const router = useRouter();
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+onMounted(() => {
+  // Tenta buscar o usuário ao carregar a aplicação se já houver um estado de autenticação
+  if (authStore.getIsAuthenticated && !authStore.user) {
+    authStore.fetchUser();
   }
+});
 
-  .logo {
-    margin: 0 2rem 0 0;
+const logout = async () => {
+  const success = await authStore.logout();
+  if (success) {
+    router.push('/login');
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+};
+</script>
