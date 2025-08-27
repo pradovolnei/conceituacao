@@ -1,39 +1,57 @@
-# conceituacao-frontend
+# 🎨 Documentação do Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Esta documentação detalha as instruções para configurar e executar a aplicação **frontend** no ambiente de desenvolvimento local.  
+A aplicação foi desenvolvida usando **Vue.js** e o gerenciador de pacotes **npm**.
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## ✅ Pré-requisitos
 
-## Type Support for `.vue` Imports in TS
+Antes de iniciar, certifique-se de que você tenha instalado em sua máquina:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Node.js** (versão recomendada: LTS)  
+- **npm** (ou **Yarn**, opcional)  
 
-## Customize configuration
+---
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## ⚙️ Configuração do Projeto
 
-## Project Setup
-
-```sh
+### 1. Instalar as dependências
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 2. Criar o arquivo de ambiente
+Na raiz da pasta `conceituacao-frontend`, crie um arquivo `.env`:
 
-```sh
+```bash
+touch .env
+```
+
+### 3. Configurar a URL da API
+Abra o arquivo `.env` e adicione a seguinte variável:
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+> Substitua pelo endereço local ou remoto da sua API.
+
+### 4. Iniciar o Servidor de Desenvolvimento
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+A aplicação estará disponível em:  
+👉 [http://localhost:5173](http://localhost:5173) *(ou outra porta caso 5173 já esteja em uso)*
 
-```sh
-npm run build
-```
+---
 
-### Lint with [ESLint](https://eslint.org/)
+## 🔗 Integração com a API
+A aplicação fará requisições para a API configurada na variável `VITE_API_URL`.
 
-```sh
-npm run lint
-```
+---
+
+## 📝 Observações
+- Recomenda-se o uso do **Node.js LTS** para evitar problemas de compatibilidade.  
+- Caso utilize **Yarn**, basta substituir os comandos `npm` pelos equivalentes do Yarn.  
