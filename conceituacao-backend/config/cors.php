@@ -8,18 +8,23 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    | or "CORS". This determines which domains are allowed to access your
+    | application via HTTP requests from the browser. A wildcard (*) may
+    | be used to allow requests from all domains.
     |
     */
 
-    'paths' => ['*'],
+    'paths' => [
+        'api/*',
+        'sanctum/csrf-cookie',
+        'login', 
+        'logout', 
+        'register', 
+    ],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => explode(',', env('APP_CORS_ALLOWED_ORIGINS', 'http://localhost:5173')),
 
     'allowed_origins_patterns' => [],
 
