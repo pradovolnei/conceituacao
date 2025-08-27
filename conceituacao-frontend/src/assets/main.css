@@ -1,0 +1,16 @@
+/*
+ * Este arquivo está pronto para receber seu CSS puro.
+ * Nenhuma dependência externa, apenas o bom e velho CSS.
+ * Sinta-se à vontade para adicionar seus estilos aqui.
+*/
+body {
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  /* Seções de estilo */
+}
+
+/* Adicione seus estilos de componente aqui */
