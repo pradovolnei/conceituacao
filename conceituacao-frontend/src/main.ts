@@ -1,24 +1,23 @@
-import './assets/main.css'
+import './assets/main.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
+import router from './router';
 import axios from 'axios';
 
-// Configuração base do Axios
-axios.defaults.withCredentials = true; // Importante para o Sanctum
-
-// A baseURL deve ser vazia ou "/" para que o proxy do Vite funcione em dev.
-// Para produção, a URL completa será injetada pelo processo de build.
-axios.defaults.baseURL = '/';
+// Configura o axios para ter a URL base da sua API
+axios.defaults.baseURL = 'http://localhost:8000';
+// Configura o axios para enviar o token de autenticação
+const token = localStorage.getItem('access_token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 
 const app = createApp(App);
-
 const pinia = createPinia();
 
 app.use(pinia);
-
 app.use(router);
 
 app.mount('#app');
